@@ -1,0 +1,76 @@
+package tests;
+
+import java.util.concurrent.TimeUnit;
+import org.json.JSONException;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+
+
+public class day1 {
+
+	@Test
+	public void run() throws InterruptedException, JSONException
+	{
+		System.setProperty("webdriver.chrome.driver", "D:\\Omi_work_do_not_tuch\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+		
+		driver.get("https://www.demoblaze.com/index.html");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;
+		WebElement textDemo = driver.findElement(By.xpath("//a[@id='itemc' and text()='Laptops']"));
+		textDemo.click();
+		driver.findElement(By.linkText("Sony vaio i5")).click();
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;	
+		driver.findElement(By.xpath("//a[@onclick='addToCart(8)']")).click();
+		wait.until(ExpectedConditions.alertIsPresent());
+		Thread.sleep(3000);
+		driver.switchTo().alert().accept();
+		driver.findElement(By.xpath("//a[@href='index.html']")).click();
+		
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;
+		driver.findElement(By.linkText("Sony vaio i7")).click();
+		
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;
+		driver.findElement(By.xpath("//a[@onclick='addToCart(9)']")).click();
+		Thread.sleep(3000);
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;
+		driver.switchTo().alert().accept();
+		
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;
+		driver.findElement(By.linkText("Cart")).click();
+		
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;
+		driver.findElement(By.xpath("//*[@id=\"tbodyid\"]/tr[2]/td[4]/a")).click();
+		Thread.sleep(3000);
+		WebElement textDem1o = driver.findElement(By.xpath("//button[@type='button' and text()='Place Order']"));
+		textDem1o.click();
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;
+		driver.findElement(By.id("name")).sendKeys("Prashant");
+		driver.findElement(By.id("country")).sendKeys("Prashant");
+		driver.findElement(By.id("city")).sendKeys("Prashant");
+		driver.findElement(By.id("card")).sendKeys("Prashant");
+		driver.findElement(By.id("month")).sendKeys("Prashant");
+		driver.findElement(By.id("year")).sendKeys("Prashant");
+		driver.findElement(By.xpath("//button[@type='button' and text()='Purchase']")).click();
+		String str1 = driver.findElement(By.cssSelector(".lead.text-muted")).getText();
+		
+		String[] sentences = str1.split("\\s");
+		
+		System.out.println(sentences[0]+sentences[1]);
+		System.out.println("hello1111"+sentences[2]+sentences[3]);
+		System.out.println(sentences[3]);
+		Assert.assertEquals("790",sentences[3]);
+		driver.findElement(By.cssSelector(".confirm.btn.btn-lg.btn-primary")).click();
+		
+		
+	}
+}
